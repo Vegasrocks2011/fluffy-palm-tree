@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Biomolecules Challenge Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: sticky three-step tab bar (Learn → Check → Write) over a single 760px reading column; reagent colour swatches carry the food tests */
+:root{
+  --bg:#f4f6f3; --surface:#ffffff; --ink:#18241c; --muted:#5a6b5f; --line:#d9e2da;
+  --accent:#2f6b4a; --accent-soft:#e3f0e8; --hot:#a8452c; --hot-soft:#fbe9e3;
+  --good:#1e7a46; --good-soft:#e2f4ea; --bad:#b3362a; --bad-soft:#fbe6e3; --warn:#9a6200; --warn-soft:#fff3d9;
+  /* reagent colours: the real lab colours, same in both themes */
+  --r-benblue:#2f7fd1; --r-green:#7aa83a; --r-yellow:#e5c43a; --r-orange:#e58a2e; --r-brick:#a8361f;
+  --r-iodine:#c8781e; --r-blueblack:#1b1f3a; --r-biublue:#4c86d6; --r-purple:#7b3fa0;
+  --r-clear:#eef5f8; --r-cloudy:#f7f7f2;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101612; --surface:#18211b; --ink:#e3ece5; --muted:#9db2a3; --line:#2b3a30;
+  --accent:#7fcca0; --accent-soft:#1a3324; --hot:#ff9b7d; --hot-soft:#3a221b;
+  --good:#6fd39a; --good-soft:#163323; --bad:#ff8a7a; --bad-soft:#3a1f1c; --warn:#f0c060; --warn-soft:#3a2f14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101612; --surface:#18211b; --ink:#e3ece5; --muted:#9db2a3; --line:#2b3a30;
+  --accent:#7fcca0; --accent-soft:#1a3324; --hot:#ff9b7d; --hot-soft:#3a221b;
+  --good:#6fd39a; --good-soft:#163323; --bad:#ff8a7a; --bad-soft:#3a1f1c; --warn:#f0c060; --warn-soft:#3a2f14; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding-block:28px 18px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,6vw,2.9rem);line-height:1.05;margin:.25em 0 .3em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--hot)}
+.lede{color:var(--muted);margin:0;max-width:60ch}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+nav.tabs a{flex:1;min-width:110px;text-decoration:none;color:var(--muted);padding:12px 8px 10px;border-bottom:3px solid transparent;text-align:center;font-weight:700;font-size:15px}
+nav.tabs a small{display:block;font-weight:400;font-size:12px}
+nav.tabs a[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main{padding-block:24px 64px}
+h2{font-family:var(--display);font-weight:800;font-size:1.6rem;margin:0 0 .3em;text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:0}
+p{margin:.4em 0}
+.note{font-size:14px;color:var(--muted)}
+
+/* big idea strip */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 8px}
+.three div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.three b{display:block;font-family:var(--display);font-size:1.05rem;color:var(--accent)}
+.three span{font-size:14px;color:var(--muted)}
+@media (max-width:560px){.three{grid-template-columns:1fr}}
+
+/* KO */
+.ko{display:grid;gap:18px;margin-top:22px}
+details.topic{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+details.topic>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;gap:12px;align-items:baseline}
+details.topic>summary::-webkit-details-marker{display:none}
+.code{font-family:var(--display);font-weight:800;color:var(--accent);min-width:3.2em}
+.sumtxt{flex:1;min-width:0}
+.sumtxt small{display:block;color:var(--muted);font-size:13px}
+.chev{color:var(--muted);transition:transform .2s}
+details[open] .chev{transform:rotate(90deg)}
+.rows{padding:0 18px 18px;display:grid;gap:12px}
+.row{display:grid;grid-template-columns:96px 1fr;gap:12px;border-top:1px solid var(--line);padding-top:12px}
+.row>.lab{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);padding-top:3px}
+.row>div{min-width:0}
+@media (max-width:560px){.row{grid-template-columns:1fr;gap:4px}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:14px}
+.watch{background:var(--warn-soft);border-left:4px solid var(--warn);padding:10px 12px;border-radius:0 8px 8px 0}
+.watch ul{margin:0;padding-left:1.1em}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.el{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:6px;font-family:var(--display);font-weight:800;background:var(--accent-soft);color:var(--accent);margin-right:4px}
+.el.n{background:var(--hot-soft);color:var(--hot)}
+.build{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:700;margin:4px 0}
+.build span{background:var(--accent-soft);padding:2px 10px;border-radius:6px}
+.build i{font-style:normal;color:var(--muted)}
+
+/* food test cards */
+.tests{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:620px){.tests{grid-template-columns:1fr}}
+.test{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg);min-width:0}
+.test h4{margin:0 0 4px;font-family:var(--display);font-size:1.05rem}
+.test .rg{font-size:14px;color:var(--muted);margin-bottom:8px}
+.tubes{display:flex;gap:14px;align-items:flex-end;margin:8px 0}
+.tube{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--muted);text-align:center;max-width:76px}
+.tube i{display:block;width:22px;height:46px;border:2px solid var(--muted);border-top:0;border-radius:0 0 12px 12px;background:var(--c);opacity:.95}
+.tube i.cloudy{background:repeating-linear-gradient(0deg,var(--r-cloudy) 0 3px,#e3e3d8 3px 5px)}
+.arrow{color:var(--muted);font-weight:700;padding-bottom:28px}
+.scale{display:flex;border-radius:6px;overflow:hidden;height:20px;margin:6px 0 2px}
+.scale span{flex:1;background:var(--c)}
+.scalelab{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.steps{margin:6px 0 0;padding-left:1.2em;font-size:15px}
+
+/* Quiz */
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 18px}
+.bar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.qmeta{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.qtext{font-size:1.15rem;font-weight:700;margin:8px 0 14px}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;text-align:left;background:var(--bg);color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;padding:12px;border-radius:8px}
+.fb.ok{background:var(--good-soft)} .fb.no{background:var(--bad-soft)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;background:var(--accent);color:var(--surface);text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.score{font-family:var(--display);font-weight:800;font-size:3rem;color:var(--accent);line-height:1}
+.review{display:grid;gap:8px;margin-top:14px}
+.review div{font-size:15px;padding:8px 12px;border-radius:8px;background:var(--bad-soft)}
+
+/* Short answers */
+.sa{display:grid;gap:18px;margin-top:16px}
+.sacard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.sahead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.marks{font-size:13px;font-weight:700;color:var(--hot);white-space:nowrap}
+.cmd{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:1px 8px;border-radius:4px}
+textarea{width:100%;min-height:96px;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:6px;resize:vertical}
+.ms{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+.ms label{display:flex;gap:10px;align-items:flex-start;padding:4px 0;cursor:pointer}
+.ms input{margin-top:5px;accent-color:var(--good);width:18px;height:18px;flex:0 0 auto}
+.ms .tip{font-size:14px;color:var(--muted);margin-top:6px}
+.tally{position:sticky;bottom:env(safe-area-inset-bottom,0px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tally b{font-family:var(--display);font-size:1.4rem;color:var(--good)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.stretch{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--hot-soft);color:var(--hot);padding:1px 7px;border-radius:4px;vertical-align:middle}
+.stem{margin:10px 0 4px;padding:12px;background:var(--bg);border-radius:8px}
+.stem table.data{font-variant-numeric:tabular-nums;font-size:14px}
+.stem table.data th{white-space:nowrap}
+.part{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+.sacard h3{font-size:1.1rem}
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <div class="eyebrow">Year 10 · Edexcel IGCSE Biology 4BI1 · Section 2(c) · Challenge</div>
+  <h1>Biomolecules <em>challenge</em> questions</h1>
+  <p class="lede">Harder questions for grades 7–9. Expect unfamiliar contexts, data, calculations and evaluation. Questions marked <span class="stretch">stretch</span> go slightly beyond the spec.</p>
+</header>
+
+<nav class="tabs" aria-label="Question types">
+  <div class="wrap">
+    <a href="#check" data-view="check">1 · Challenge MCQ<small>15 questions</small></a>
+    <a href="#exam" data-view="exam">2 · Exam questions<small>6 multi-part questions</small></a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="v-check">
+  <h2>Challenge multiple choice</h2>
+  <p class="note">Each question needs two steps of thinking. Read every option before you choose.</p>
+  <div class="bar"><i id="qbar"></i></div>
+  <div id="quiz"></div>
+</section>
+
+<section id="v-exam" hidden>
+  <h2>Exam-style questions</h2>
+  <p>Answer every part before opening the mark scheme. Tick only the points you actually wrote, then compare with the examiner tips.</p>
+  <div class="sa" id="sa"></div>
+  <div class="tally"><span>Self-marked: <b id="tot">0 / 0</b></span><button class="btn ghost" id="resetSA" type="button">Clear all answers</button></div>
+</section>
+
+</main>
+
+<script>
+(function(){
+const KEY="y10-biomol-challenge";
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+const views=["check","exam"];
+function show(){
+  const h=(location.hash||"#check").slice(1);const v=views.includes(h)?h:"check";
+  views.forEach(n=>{document.getElementById("v-"+n).hidden=n!==v});
+  document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.view===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo({top:0});
+}
+window.addEventListener("hashchange",show);show();
+
+/* ---------- Challenge MCQ ---------- */
+const Q=[
+{t:"2.9",q:"A food sample stays blue after heating with Benedict's solution. Which conclusion is valid?",o:["The food contains no sugar","The food contains no carbohydrate","The food contains no reducing sugar","The food contains starch"],a:2,e:"Benedict's only detects reducing sugars. The food could still contain sucrose or starch, so 'no sugar' or 'no carbohydrate' goes too far."},
+{t:"2.9",q:"Starch solution is mixed with amylase and left for 10 minutes at 37 °C. Samples are then tested. Which results are most likely?",o:["Iodine blue-black; Benedict's blue","Iodine orange-brown; Benedict's brick-red","Iodine blue-black; Benedict's brick-red","Iodine orange-brown; Benedict's blue"],a:1,e:"Amylase breaks starch down into maltose, a reducing sugar. No starch is left, and sugar is now present."},
+{t:"2.9",q:"Amylase is an enzyme. What would the biuret test show on a solution of amylase?",o:["Stays blue, because enzymes are carbohydrates","Turns purple, because enzymes are proteins","Turns blue-black","Forms a brick-red precipitate"],a:1,e:"Enzymes are proteins, so biuret gives purple. This links 2.8 to the enzyme topic."},
+{t:"2.9",q:"A potato extract gives: iodine blue-black, Benedict's blue, biuret purple, emulsion clear. What does it contain?",o:["Starch and reducing sugar","Starch and protein only","Protein and fat","Starch, protein and fat"],a:1,e:"Work through each test: blue-black = starch, blue = no reducing sugar, purple = protein, clear = no fat."},
+{t:"2.9",q:"A student compares sugar in three juices using Benedict's. Which change would make the comparison INVALID?",o:["Using 2 cm³ of each juice","Heating each tube for a different length of time","Using the same water bath temperature","Comparing against glucose colour standards"],a:1,e:"Heating time is a control variable. Changing it means differences in colour may not be caused by the sugar content."},
+{t:"2.9",q:"Which two food test reagents both contain copper ions?",o:["Iodine and biuret","Benedict's and biuret","Benedict's and iodine","Ethanol and biuret"],a:1,e:"Both Benedict's and biuret (copper sulfate) contain copper ions, which is why both start blue. Only Benedict's needs heat."},
+{t:"2.8",q:"In one lipid molecule, what is the ratio of glycerol to fatty acids?",o:["1 : 1","3 : 1","1 : 3","2 : 3"],a:2,e:"One glycerol is joined to three fatty acids."},
+{t:"2.9",q:"A dark purple grape juice is tested with biuret and the result is hard to see. What is the best explanation?",o:["Grape juice cannot contain protein","The colour of the juice masks the colour change","Biuret needs heating","The sodium hydroxide was missing"],a:1,e:"A strongly coloured sample hides the colour change. Comparing with a control of the juice plus water helps."},
+{t:"2.9",q:"To make 10 cm³ of 0.5% glucose solution from a 2% stock, you would mix…",o:["5 cm³ stock + 5 cm³ water","2.5 cm³ stock + 7.5 cm³ water","0.5 cm³ stock + 9.5 cm³ water","4 cm³ stock + 6 cm³ water"],a:1,e:"0.5 ÷ 2 = 0.25 of the volume is stock: 0.25 × 10 = 2.5 cm³, then 7.5 cm³ water."},
+{t:"2.9",q:"Which sugar gives a NEGATIVE result with Benedict's solution?",o:["Glucose","Maltose","Lactose","Sucrose"],a:3,e:"Sucrose is a non-reducing sugar. Glucose, maltose and lactose are reducing sugars."},
+{t:"2.9",q:"A student adds butter to water, shakes it, then adds ethanol. The mixture stays clear. Why?",o:["Butter contains no fat","The fat never dissolved, because it is insoluble in water","Ethanol reacts with water","The tube was not heated"],a:1,e:"The order matters. Fat must dissolve in ethanol first; only then does adding it to water make an emulsion."},
+{t:"2.9",q:"Why is a food extract filtered before the iodine and Benedict's tests?",o:["To remove the protein","So that solid pieces do not hide the colour change","To speed up the reaction","To kill bacteria"],a:1,e:"Bits of solid food make the solution cloudy and make the colour hard to judge."},
+{t:"2.9",q:"In a colorimeter, after the brick-red precipitate is filtered off, more glucose gives a paler blue liquid. How does % light transmitted change as glucose increases?",o:["It decreases","It increases","It stays the same","It increases, then decreases"],a:1,e:"More glucose → more copper used to make precipitate → less blue left → more light passes through.",s:true},
+{t:"2.8",q:"Why can proteins have far more different shapes than starch?",o:["Proteins are bigger than starch","Proteins are built from about 20 different amino acids in many orders; starch is built from one type of unit","Proteins contain nitrogen","Starch is only found in plants"],a:1,e:"Starch is a chain of glucose only. Proteins vary in the type and order of amino acids, so they fold into different shapes."},
+{t:"2.7",q:"A molecule is 40% carbon, 6.7% hydrogen and 53.3% oxygen by mass. Which is it most likely to be?",o:["A protein","A lipid","A carbohydrate","An amino acid"],a:2,e:"No nitrogen rules out protein and amino acids. Lipids contain much less oxygen. This is the composition of glucose."}
+];
+const quizEl=document.getElementById("quiz"),bar=document.getElementById("qbar");
+let order,idx,score,missed;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startQuiz(){order=shuffle(Q);idx=0;score=0;missed=[];renderQ()}
+function renderQ(){
+  bar.style.width=(idx/order.length*100)+"%";
+  if(idx>=order.length)return renderEnd();
+  const q=order[idx];const opts=shuffle(q.o.map((t,i)=>({t,i})));
+  quizEl.innerHTML=`<div class="qcard"><div class="qmeta"><span>Question ${idx+1} of ${order.length}</span><span>${q.s?'<span class="stretch">stretch</span> ':''}${q.t} · Score ${score}</span></div>
+  <div class="qtext">${q.q}</div><div class="opts">${opts.map(o=>`<button class="opt" type="button" data-i="${o.i}">${o.t}</button>`).join("")}</div><div id="fbx"></div></div>`;
+  quizEl.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answer(b,q)));
+}
+function answer(b,q){
+  const pick=+b.dataset.i,ok=pick===q.a;if(ok)score++;else missed.push(q);
+  quizEl.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(+x.dataset.i===q.a)x.classList.add("right")});
+  if(!ok)b.classList.add("wrong");
+  document.getElementById("fbx").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct.":"Not quite."}</b> ${q.e}</div><div class="btns"><button class="btn" type="button" id="nx">${idx+1<order.length?"Next question":"See my score"}</button></div>`;
+  const nx=document.getElementById("nx");nx.focus();nx.addEventListener("click",()=>{idx++;renderQ()});
+}
+function renderEnd(){
+  const pct=Math.round(score/order.length*100);
+  quizEl.innerHTML=`<div class="qcard"><div class="eyebrow">Your score</div><div class="score">${score} / ${order.length}</div>
+  <p>${pct>=80?"Excellent. Try the exam questions next.":pct>=50?"Good effort. Read the explanations below, then try again.":"Go back over the core knowledge organiser, then try again."}</p>
+  ${missed.length?`<div class="review">${missed.map(m=>`<div><b>${m.q}</b><br>Answer: ${m.o[m.a]}<br><span class="note">${m.e}</span></div>`).join("")}</div>`:""}
+  <div class="btns"><button class="btn" type="button" id="again">Try again</button><a class="btn ghost" href="#exam">Exam questions →</a></div></div>`;
+  document.getElementById("again").addEventListener("click",startQuiz);
+}
+startQuiz();
+
+/* ---------- Exam questions ---------- */
+const X=[
+{title:"Amylase and starch",
+ stem:`<p>A student mixed 10 cm³ of 1% starch solution with 2 cm³ of amylase solution at 37 °C. Every minute, she put one drop of the mixture into a drop of iodine solution on a spotting tile.</p>
+ <div class="tablewrap"><table class="data"><tr><th>Time / min</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+ <tr><th>Colour</th><td>blue-black</td><td>blue-black</td><td>blue-black</td><td>dark brown</td><td>brown</td><td>brown</td><td>orange-brown</td></tr></table></div>`,
+ parts:[
+ {n:"a",c:"Explain",m:2,q:"Explain why the iodine solution stayed orange-brown at 6 minutes.",p:["amylase has broken down / digested the starch","so no starch is left to turn the iodine blue-black"],tip:"'The starch has gone' is not enough. Say what removed it."},
+ {n:"b",c:"Predict",m:3,q:"The student tested the mixture at 0 minutes and at 8 minutes with Benedict's solution. Predict both results and explain them.",p:["0 minutes: stays blue","8 minutes: green / yellow / orange / brick-red","because starch has been broken down into a reducing sugar (maltose)"],tip:"Predict = say what you would see. Explain = say why."},
+ {n:"c",c:"Explain",m:2,q:"The student also set up a tube with boiled amylase. Explain why.",p:["boiling denatures the enzyme / changes the active site","as a control, to show the starch breakdown is caused by the enzyme"],tip:"Control alone gets 1 mark; you must say what it shows."},
+ {n:"d",c:"Calculate",m:2,q:"Rate of reaction = 1 ÷ time for starch to disappear. Calculate the rate. Give your answer to 2 significant figures with a unit.",p:["1 ÷ 6 = 0.17","unit: per minute / min⁻¹"],tip:"Use the first time the colour stayed orange-brown."}
+ ]},
+{title:"Measuring glucose with a colorimeter",stretch:true,
+ stem:`<p>A student heated Benedict's solution with glucose solutions of known concentration, filtered off the precipitate, and measured how much light passed through the remaining liquid using a colorimeter.</p>
+ <div class="tablewrap"><table class="data"><tr><th>Glucose / %</th><td>0</td><td>0.2</td><td>0.4</td><td>0.6</td><td>0.8</td><td>1.0</td></tr>
+ <tr><th>Light transmitted / %</th><td>20</td><td>34</td><td>48</td><td>61</td><td>75</td><td>88</td></tr></table></div>
+ <p>A fruit juice treated the same way gave 55% light transmitted.</p>`,
+ parts:[
+ {n:"a",c:"Describe",m:2,q:"Describe the relationship between glucose concentration and light transmitted.",p:["as glucose concentration increases, light transmitted increases","quotes data, e.g. 20% at 0% glucose to 88% at 1.0% (roughly linear / about 7% per 0.1% glucose)"],tip:"Use numbers from the table."},
+ {n:"b",c:"Estimate",m:1,q:"Estimate the glucose concentration of the fruit juice.",p:["about 0.5% (accept 0.49–0.52%)"],tip:"55 lies about halfway between 48 and 61."},
+ {n:"c",c:"Explain",m:2,q:"Explain why light transmitted increases as glucose concentration increases.",p:["more glucose reacts with the copper ions in Benedict's, forming more precipitate","so less blue copper remains in the liquid, so more light passes through"],tip:""},
+ {n:"d",c:"Explain",m:2,q:"Explain why the colorimeter gives better results than judging colour by eye.",p:["gives a number / quantitative result","removes the subjective judgement of colour, so results are more accurate / repeatable"],tip:""},
+ {n:"e",c:"State",m:2,q:"State two variables the student must control.",p:["volume of Benedict's / volume of sample","temperature of water bath / heating time"],tip:"Any two."}
+ ]},
+{title:"Planning: identify four solutions",
+ stem:`<p>You are given four unlabelled solutions: glucose, starch, egg albumen (protein) and a mixture of oil and water.</p>`,
+ parts:[
+ {n:"",c:"Describe",m:6,q:"Describe how you would use food tests to identify each solution. Include results and safety. (6 marks)",p:[
+   "iodine solution: orange-brown to blue-black identifies starch",
+   "Benedict's solution heated in a water bath (about 80 °C)",
+   "blue to brick-red / orange identifies glucose",
+   "sodium hydroxide then copper sulfate (biuret): blue to purple identifies protein",
+   "shake with ethanol then pour into water: cloudy white emulsion identifies oil",
+   "safety or control: eye protection / ethanol away from flames / test water as a control / same volumes / clean tubes"],
+  tip:"Levels: 1–2 points = Level 1 (1–2 marks); 3–4 points with results = Level 2 (3–4 marks); 5–6 points, logical order, colours before and after = Level 3 (5–6 marks)."}
+ ]},
+{title:"Molecules and their structure",
+ stem:`<p>Starch, glycogen, proteins and lipids are all large molecules built from smaller units.</p>`,
+ parts:[
+ {n:"a",c:"Explain",m:3,q:"Explain why there are thousands of different proteins but starch always has the same basic structure.",p:["proteins are made from about 20 different amino acids","which can be joined in any order / sequence, so different shapes","starch is made only from glucose units"],tip:""},
+ {n:"b",c:"Suggest",m:2,q:"Suggest why animals store glucose as glycogen rather than as glucose itself.",p:["glycogen is a large / insoluble molecule","so it does not affect water movement by osmosis / it is compact"],tip:"Links to Section 2(d) on osmosis.",stretch:true},
+ {n:"c",c:"Explain",m:2,q:"A sample contains carbon, hydrogen, oxygen and nitrogen. A student says it must be a lipid. Explain why the student is wrong.",p:["lipids contain only carbon, hydrogen and oxygen","nitrogen shows it is (or contains) protein"],tip:""},
+ {n:"d",c:"Compare",m:3,q:"Compare the structure of a lipid with the structure of starch.",p:["both are large molecules made from smaller units","lipid: glycerol and (three) fatty acids; starch: many glucose units","starch is a long chain; lipid is not a long chain of repeating units"],tip:"Compare needs at least one similarity and one difference."}
+ ]},
+{title:"Evaluating a conclusion",
+ stem:`<p>A student heats milk with Benedict's solution. It turns orange. The student concludes: <b>"Milk contains glucose."</b></p>`,
+ parts:[
+ {n:"a",c:"Evaluate",m:3,q:"Evaluate the student's conclusion.",p:["Benedict's tests for reducing sugars, not glucose specifically","milk contains lactose, which is a reducing sugar","so the valid conclusion is 'milk contains a reducing sugar'"],tip:"Evaluate = make a judgement and support it."},
+ {n:"b",c:"Explain",m:2,q:"Table sugar (sucrose) gives a negative result with Benedict's. Explain why this does not mean table sugar contains no sugar.",p:["sucrose is a non-reducing sugar","Benedict's only detects reducing sugars"],tip:""},
+ {n:"c",c:"Suggest",m:2,q:"Suggest how the student could find out whether milk contains more sugar than orange juice.",p:["use the same volume of each, same volume of Benedict's, same heating time and temperature","compare colours against standards / use a colorimeter"],tip:""}
+ ]},
+{title:"Spotting mistakes in practicals",
+ stem:`<p>Three students make mistakes during the food tests.</p>`,
+ parts:[
+ {n:"a",c:"Explain",m:2,q:"Student A adds a lot of copper sulfate in the biuret test. A sample that contains protein stays blue. Explain why.",p:["excess (blue) copper sulfate","masks / hides the purple colour"],tip:"Only a few drops are needed."},
+ {n:"b",c:"Explain",m:2,q:"Student B shakes cheese with water and then adds ethanol. No emulsion forms. Explain why.",p:["fat does not dissolve in water","it must dissolve in ethanol first, then form droplets when added to water"],tip:""},
+ {n:"c",c:"Explain",m:2,q:"Student C tests a glucose solution with Benedict's but does not heat it. It stays blue. Explain the error and its effect.",p:["Benedict's test needs heating (water bath)","so a false negative: glucose present but not detected"],tip:"Name the type of error: false negative."}
+ ]}
+];
+const saEl=document.getElementById("sa");
+let st=store.get(KEY,{});
+function save(){store.set(KEY,st)}
+function total(){let got=0,max=0;X.forEach((x,i)=>x.parts.forEach((p,j)=>{const k=i+"_"+j;max+=p.m;got+=Math.min(p.m,((st[k]||{}).ticks||[]).filter(Boolean).length)}));document.getElementById("tot").textContent=got+" / "+max}
+function render(){
+  saEl.innerHTML=X.map((x,i)=>{const qm=x.parts.reduce((a,p)=>a+p.m,0);return `<div class="sacard">
+   <div class="sahead"><h3>Question ${i+1} · ${x.title} ${x.stretch?'<span class="stretch">stretch</span>':''}</h3><span class="marks">${qm} marks</span></div>
+   <div class="stem">${x.stem}</div>
+   ${x.parts.map((p,j)=>{const k=i+"_"+j,s=st[k]||{};return `<div class="part">
+     <div class="sahead"><span><b>${p.n?"("+p.n+")":""}</b> <span class="cmd">${p.c}</span> ${p.stretch?'<span class="stretch">stretch</span>':''}</span><span class="marks">${p.m} mark${p.m>1?"s":""}</span></div>
+     <p style="font-weight:700;margin-top:6px">${p.q}</p>
+     <label class="note" for="a${k}">Your answer</label>
+     <textarea id="a${k}" data-k="${k}">${(s.text||"").replace(/</g,"&lt;")}</textarea>
+     <details class="ms" ${s.open?"open":""} data-k="${k}"><summary style="cursor:pointer;font-weight:700;color:var(--accent)">Mark scheme: tick what you wrote</summary>
+     ${p.p.map((m,n)=>`<label><input type="checkbox" id="m${k}_${n}" data-k="${k}" data-n="${n}" ${(s.ticks||[])[n]?"checked":""}><span>${m}</span></label>`).join("")}
+     ${p.tip?`<div class="tip">Examiner tip: ${p.tip}</div>`:""}</details></div>`}).join("")}
+  </div>`}).join("");
+  saEl.querySelectorAll("textarea").forEach(t=>t.addEventListener("input",()=>{const k=t.dataset.k;st[k]={...(st[k]||{}),text:t.value};save()}));
+  saEl.querySelectorAll("input[type=checkbox]").forEach(c=>c.addEventListener("change",()=>{const k=c.dataset.k;const s=st[k]||{};const ticks=s.ticks||[];ticks[c.dataset.n]=c.checked;st[k]={...s,ticks};save();total()}));
+  saEl.querySelectorAll("details.ms").forEach(d=>d.addEventListener("toggle",()=>{const k=d.dataset.k;st[k]={...(st[k]||{}),open:d.open};save()}));
+  total();
+}
+let confirmReset=false;
+document.getElementById("resetSA").addEventListener("click",e=>{
+  if(!confirmReset){confirmReset=true;e.target.textContent="Tap again to clear everything";setTimeout(()=>{confirmReset=false;e.target.textContent="Clear all answers"},3000);return}
+  st={};save();render();confirmReset=false;e.target.textContent="Clear all answers";
+});
+render();
+})();
+</script>
+</body>
+</html>
